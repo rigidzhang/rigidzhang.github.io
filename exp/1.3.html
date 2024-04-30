@@ -44,6 +44,7 @@
   } 
   body{
     position: relative;
+    width: 60%;
   }
   #aid{
     position: absolute;
@@ -86,6 +87,7 @@
   </footer> 
   <div id="aid">
     <p>用户键盘响应区</p>
+    <p id="keyboard"></p>
 
   </div>
  <script>
@@ -131,7 +133,19 @@ $("bookface").addEventListener("mousemove",function(ev){
     console.log("鼠标正在移动，坐标为："+"("+x+","+y+")");
     $("bookface").textContent= "鼠标正在移动，坐标为："+"("+x+","+y+")";
 });
+$("bookface").addEventListener("mouseout",function(ev){
+    //console.log(ev);
+    $("bookface").textContent= "鼠标已经离开";
 
+});
+$("body").addEventListener("keypress",function(ev){
+    let k= ev.key;
+    let c= ev.keyCode;
+    let s1= "键盘输入了：";
+    let s2= "它的代码为：";
+    
+    $("keyboard").textContent=s1+k+";"+s2+c;
+})   
 
   function $(ele){
         if (typeof ele !== 'string'){
