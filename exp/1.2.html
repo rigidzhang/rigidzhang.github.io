@@ -1,90 +1,74 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+ <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width , initial-scale=1">
-
   <style>
-    body {
-      text-align: center;
-    }
+   *{
+    margin: 10px;
+    text-align: center;
+   }
 
-    header {
+    header{
+      border: 2px solid blue;
+      height: 15%;
+      font-size: 1.66em;
+      
+    }
+    main{
+      border: 2px solid blue;
+      height: 70%;
+      font-size: 1.2em;
+      
+    }
+    nav{
       border: 2px solid blue;
       height: 10%;
-      background-color: blue;
-      color: white;
-    }
-    nav {
+         }
+    nav button{
+	 font-size: 1.1em;
+	}
+    footer{
       border: 2px solid blue;
       height: 5%;
     }
-    main {
-        height: 75%;
-        background-image: url(../lesson/cssAnimation.jpg);
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center;
-    }
-    footer {
-      border: 2px solid blue;
-      height: 10%;
-      background-color: black;
-      color: white;
-    }
-
-    p#book {
-        font-size: 1.6em;
-    }
-
-    button {
-        font-size: 1.4em;
-        margin-right: 0.5em;
-    }
- 
   </style>
-  <title> "读好书、练思维、爱编程" </title>
-</head>
-
-<body>
+  <title> 移动互联时代的响应式设计（窄屏） </title>
+ </head> 
+ <body>
   <header>
-    <p id="book">
-      计算机科学与技术
-    </p>
+	<p id="book">
+      我的毕设题目
+    </p> 
   </header>
   <nav>
-    <button>
-        导航1
-    </button>
-    <button>
-        导航2
-    </button>
-    <button>
-        导航3
-    </button>
+    <button>导航一</button>
+    <button>导航二</button>
+    <button>导航三</button>
   </nav>
+  <main id = 'main'>
+    软件内容区域
+  </main> 
 
-  <main>
-    
-  </main>
+  <footer> 
+   <p id="statusInfo">
+    XXX @ 江西科技师范大学 2025
+	 </p>
+  </footer> 
 
-  <footer>
-    <p id="statusInfo">
-      CopyRight from 张荣军 江西科技师范大学 2022--2025
-    </p>
-  </footer>
-
-  <script>
+ <script> 
     var UI = {};
-      UI.deviceWidth = window.innerWidth;
-      UI.deviceHeight = window.innerHeight;
-      document.body.style.height = UI.deviceHeight + 'px';
-      document.body.style.fontSize = UI.deviceWidth/32 + 'px';
-
-  </script>
-  
-
-</body>
-
+    UI.appWidth = window.innerWidth > 600 ? 600 : window.innerWidth ;
+    UI.appHeight = window.innerHeight;
+ 	const LETTERS = 22 ;
+	const baseFont = UI.appWidth / LETTERS;
+ 
+	//通过更改body对象的字体大小，这个属性能够遗传其子子孙孙
+    document.body.style.fontSize = baseFont + "px"; 
+    //通过把body对象的宽度和高度设置为设备/屏幕的宽度和高度，实现全屏。
+    //通过CSS对子对象百分比（纵向）的配合，从而实现响应式设计的目标。
+    document.body.style.width = UI.appWidth - 2*baseFont + "px" ;
+    document.body.style.height = UI.appHeight - 4*baseFont + "px";
+ </script>
+ </body>
 </html>
