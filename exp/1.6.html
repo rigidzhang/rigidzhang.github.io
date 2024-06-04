@@ -2,8 +2,8 @@
 <html lang="en">
    <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width , initial-scale=1">
-  <title>宽屏UI设计之底层键盘事件的研究</title>
+  <meta name="viewport" content="width=device-width , initial-scale=1 , user-scalable=no">
+  <title>UI的个性化键盘控制——巧妙应用keydown和keyup键盘底层事件</title>
 <style>
   *{
     margin: 10px;
@@ -26,11 +26,6 @@
     position: relative;
   }
 
-  #box{
-    position: absolute;
-    right: 0;
-    width: 100px;
-  }
 
   footer{
     border: 3px solid green;
@@ -43,12 +38,7 @@
   button{
    font-size:1em;
   }
-  #aid{
-    position: absolute;
-    border: 3px solid blue;
-    top:0px;
-    left:600px;
-  }
+
   #bookface{
     position: absolute;
     width: 80%;
@@ -57,14 +47,33 @@
     background-color: blanchedalmond;
     left:7% ;
     top: 7% ;
-	
+  } 
+  #aid{
+    position: absolute;
+    border: 3px solid blue;
+    top:0px;
+    left:600px;
+  }
+  #typeText{
+  border: 1px solid blue;
+  padding:0.2em ;
+  color: gray ;
+  }
+  #keyStatus{
+    position: absolute;
+    border: 1px solid blue;
+	width: 90% ;
+    right: 0;
+    bottom: 0; 
+	font-size: 0.6em;
+	padding:0.5em ;
   }
 </style>
 </head> 
 <body >
   <header>
     <p id="book">
-     《我的毕设题目》
+      《 基于Web客户端技术的个性化UI设计和实现 》
     </p>
    </header>
   <nav>
@@ -76,22 +85,21 @@
 
    <main id="main">
 	<div id="bookface">
-        这是书的封面图<br>
-	在此对象范围拖动鼠标/滑动触屏<br>
-        拖动/滑动超过100像素，视为有效UI互动！
+        本例代码的运行需要超过1千像素宽度的宽屏<br>
+	    建议使用有键盘的PC运行和调试代码<br>
+        当然拖动/滑动超过100像素的UI互动依然有效！
     </div>
    </main>
 
   <footer> 
    
-	CopyRight XXX 江西科技师范大学 2024--2025
+	CopyRight 张荣军 江西科技师范大学 2024--2025
 
   </footer> 
   <div id="aid">
    用户键盘响应区
    <p id="typeText"></p>
-   <hr>
-   <p id="keyboard"></p> 
+   <p id="keyStatus"></p> 
   </div>
  <script>
   var UI = {};
@@ -188,44 +196,26 @@ var Pointer = {};
   $("bookface").addEventListener("mousemove", handleMoving);
   $("bookface").addEventListener("touchmove", handleMoving);
 
- /**** 添加"keydown"和"keyup"这2个键盘底层事件处理后，keypress这个高层键盘事件响应被系统忽略
-  $("body").addEventListener("keypress", function(ev){
-    $("typeText").textContent += ev.key ;
-  });
-
-  $("body").addEventListener("keydown",function(ev){
-	ev.preventDefault() ;
-    let k = ev.key;
-    let c = ev.keyCode;
-    $("keyboard").textContent = "您已按键 ：" + k + " ，"+ "字符编码 ：" + c;
-   });
- $("body").addEventListener("keyup",function(ev){
-	ev.preventDefault() ;
-    let k = ev.key;
-    let c = ev.keyCode;
-    $("keyboard").textContent = "松开按键 ：" + k + " ，"+ "字符编码 ：" + c;
- });
-**********/
+ 
  //提出问题：研究利用"keydown"和"keyup"2个底层事件，实现同时输出按键状态和文本内容
     $("body").addEventListener("keydown",function(ev){
-	ev.preventDefault() ;
+	ev.preventDefault() ; //增加“阻止事件对象的默认事件后”，不仅 keypress 事件将不再响应，而且系统的热键, 如“F5刷新页面/Ctrl+R ”、“F12打开开发者面板”等也不再被响应
     let k = ev.key;
     let c = ev.keyCode;
-    $("keyboard").textContent = "您已按键 ：" + k + " ，"+ "字符编码 ：" + c;
+    $("keyStatus").textContent = "按下键 ：" + k + " ，"+ "编码 ：" + c;
    });
  $("body").addEventListener("keyup",function(ev){
 	ev.preventDefault() ;
     let key = ev.key;
-    let code = ev.keyCode;
-    $("keyboard").textContent = "松开按键 ：" + key + " ，"+ "字符编码 ：" + code;
+    $("keyStatus").textContent =  key + " 键已弹起" ;
     if (printLetter(key)){
 	    $("typeText").textContent += key ;
 	 }
     function printLetter(k){
-	 if (k.length > 1){ //学生必须研究这个逻辑的作用
+	 if (k.length > 1){ //学生须研究这个逻辑的作用
 		 return false ;
 	 }
-	 let puncs = ['~','`','!','@','#','$','%','^','&','*','(',')','-','_','+','=',',','.','<','>','?','/',' '] ;
+	 let puncs = ['~','`','!','@','#','$','%','^','&','*','(',')','-','_','+','=',',','.',';',';','<','>','?','/',' ','\'','\"'] ;
      if ( (k >= 'a' && k <= 'z')|| (k >= 'A' && k <= 'Z')|| (k >= '0' && k <= '9'))  {
 		 console.log("letters") ;
 		 return true ;
