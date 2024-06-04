@@ -2,12 +2,9 @@
 <html lang="en">
    <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width , initial-scale=1">
-  <!-- 
-   增加这句后，可以看到浏览器的DevTools面板的模拟移动设备状态的变化
-  -->
+  <meta name="viewport" content="width=device-width , initial-scale=1 , user-scalable=no">
 
-  <title>Welcome to myCTApp</title>
+  <title>UI设计之鼠标模型的分析和控制</title>
  
 <style>
   *{
@@ -63,12 +60,13 @@
     left:7% ;
     top: 7% ;
   }
+  
 </style>
 </head> 
 <body >
   <header>
     <p id="book">
-     《我的毕设题目》
+      《 基于Web客户端技术的个性化UI设计和实现 》
     </p>
    </header>
   <nav>
@@ -87,12 +85,12 @@
 
   <footer> 
    
-	CopyRight XXX 江西科技师范大学 2024--2025
+	CopyRight 张荣军 江西科技师范大学 2024--2025
 
   </footer> 
   <div id="aid">
     <p>用户键盘响应区</p>
-
+    <p id="keyboard"></p>
   </div>
  <script>
   var UI = {};
