@@ -1,56 +1,45 @@
 <!doctype html>
 <html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width , initial-scale=1 , user-scalable=no">
-  <!-- 
-   增加这句后，可以看到浏览器的DevTools面板的模拟移动设备状态的变化
-  -->
-  <style>
-   *{
-    margin: 10px;
-    text-align: center;
-	font-size:30px ;
-   }
-    header{
-      border: 2px solid blue;
-      height: 200px;
-	   }
 
-    main{
-      border: 2px solid blue;
-      height: 400px;
-    }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width , initial-scale=1 , user-scalable=no">
+    <title>最终页面</title>
+    <link rel="stylesheet" href="myCss.css">
+</head>
 
-    footer{
-      border: 2px solid blue;
-      height: 100px;
-    }
-   a{
-    display: inline-block ;
-	padding:10px ;
-	color: white;
-	background-color: blue;
-	text-decoration: none ;
-   }
-  </style>
-  <title>“三段论”式的内容设计概要</title>
- </head> 
- <body>
-  <header>
-     《 基于Web客户端技术的个性化UI设计和实现 》
-  </header>
-   <main>
-    	我的主题内容： ‘读好书、练思维、勤编程’ @masterLijh 计算思维系列课程
-   </main>
-  <footer> 
- 	CopyRight 张荣军  江西科技师范大学 2024-2025
-  </footer> 
-  其他章节：
-  <a href="1.2.html" target="_blank" >1.2</a>
-  <a href="1.3.html" target="_blank" >1.3</a>
-  <a href="1.4.html" target="_blank" >1.4</a>
-  <a href="1.5.html" target="_blank" >1.5</a>
-  <a href="1.6.html" target="_blank" >1.6</a>
- </body>
+<body>
+    <header>
+        <p id="head">
+            作品展示
+        </p>
+    </header>
+    <nav>
+        <button id="prevImage">向前</button>
+        <button id="randomImage">随机</button>
+        <button id="nextImage">向后</button>
+    </nav>
+
+    <main id="main">
+        <div id="Content">
+            内容展示区
+        </div>
+    </main>
+
+    <footer>
+        &copy 张荣军 江西科技师范大学 2024--2025
+    </footer>
+    <div id="aid">
+        <p id="userResponseArea">用户键盘响应区</p>
+        <div id="keyboard">
+            <p id="displaytxt">
+                &nbsp;
+            </p>
+        </div>
+        <div id="displayCode">
+            &nbsp;
+        </div>
+        <script src="myJs.js"></script>
+</body>
+
 </html>

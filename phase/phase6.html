@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width , initial-scale=1 , user-scalable=no">
+
+
+    <style>
+        * {
+            margin: 2px;
+            text-align: center;
+            align-content: center;
+            justify-content: center;
+            font-family: 'KaiTi', '楷体', 'SimKai', 'STKaiti', serif;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            /* Safari */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+            /* 标准语法 */
+        }
+        
+        header {
+            border: 2px solid black;
+            height: 15%;
+            font-size: 1.66em;
+            box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.2);
+        }
+        
+        main {
+            background-color: rgb(247, 247, 247);
+            border: 2px solid black;
+            height: 70%;
+            font-size: 1.2em;
+            display: flex;
+            box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.2);
+        }
+        
+        .Content {
+            font-size: 1.1em;
+            position: relative;
+            width: 75%;
+            background-color: #FFDEE9;
+            background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%);
+            box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.4);
+        }
+        
+        nav {
+            background-color: rgb(247, 247, 247);
+            border: 2px solid black;
+            height: 10%;
+        }
+        
+        nav button {
+            font-size: 0.8em;
+            padding: 13px 13px;
+            box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.3);
+            background-color: #8EC5FC;
+            background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+            border-radius: 8px;
+            cursor: pointer;
+            /* 鼠标悬停效果 */
+            transition: background-color 0.3s ease;
+            /* 平滑过渡效果 */
+        }
+        
+        footer {
+            border: 2px solid black;
+            height: 5%;
+            box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.2);
+        }
+        
+        #aid {
+            top: 0.3em;
+            left: 650px;
+            position: absolute;
+            align-content: normal;
+            border: 2px solid black;
+            box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.2);
+        }
+        
+        #userResponseArea {
+            margin: 0.8em;
+            font-size: 1.66em;
+        }
+        
+        #keyboard {
+            background-color: #74EBD5;
+            background-image: linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%);
+            border: 3px solid black;
+            margin-left: 10%;
+            width: 80%;
+            height: 60%;
+            box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.4);
+        }
+        
+        #displayCode {
+            border: 3px solid black;
+            margin-left: 10%;
+            width: 80%;
+            position: absolute;
+            bottom: 0.3em;
+            box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+    <title>通用的UI设计，用一套代码同时为触屏和鼠标建模</title>
+</head>
+
+<body>
+    <header>
+        <p id="head">
+            作品展示
+        </p>
+    </header>
+    <nav>
+        <button title="功能未实现">导航1</button>
+        <button title="功能未实现">导航2</button>
+        <button title="功能未实现">导航3</button>
+    </nav>
+
+
+    <main id="main">
+        <div class="Content">
+            内容展示区
+        </div>
+    </main>
+
+    <footer>
+        &copy 张荣军 江西科技师范大学 2024--2025
+    </footer>
+    <div id="aid">
+        <p id="userResponseArea">用户键盘响应区</p>
+        <div id="keyboard">
+            <p id="displaytxt">
+                &nbsp;
+            </p>
+        </div>
+        <p id="displayCode">
+            &nbsp;
+        </p>
+    </div>
+    <script>
+        // 创建一个名为UI的对象，用于存储系统的宽度和高度信息
+        var UI = {};
+        // 记录系统窗口的宽度和高度，并限制宽度不超过 600px
+        UI.appWidth = window.innerWidth > 600 ? 600 : window.innerWidth;
+        UI.appHeight = window.innerHeight;
+        // 计算默认字体大小
+        const Letters = 22; // 字母数量
+        const baseFont = UI.appWidth / Letters; // 基准字体大小
+        // 设置页面的字体大小为默认字体大小
+        document.body.style.fontSize = baseFont + 'px';
+        // 通过动态CSS设置页面全屏显示
+        document.body.style.width = UI.appWidth + 'px';
+        document.body.style.height = UI.appHeight - 1 * baseFont + "px";
+        if (window.innerWidth < 1000) {
+            $("#aid").style.display = 'none';
+        }
+        $("#aid").style.width = window.innerWidth - UI.appWidth - baseFont * 3 + 'px';
+        $("#aid").style.height = UI.appHeight - 1 * baseFont + 'px';
+        //尝试对鼠标设计UI控制
+        var mouse = {};
+        mouse.isDown = false;
+        mouse.x = 0;
+        mouse.y = 0;
+        mouse.deltaX = 0;
+        $(".Content").addEventListener("mousedown", function(ev) {
+            mouse.isDown = true;
+            mouse.x = ev.pageX;
+            mouse.y = ev.pageY;
+            console.log("mouseDown at x: " + "(" + mouse.x + "," + mouse.y + ")");
+            $(".Content").textContent = "鼠标按下，坐标：" + "(" + mouse.x + "," + mouse.y + ")";
+        });
+        $(".Content").addEventListener("mouseup", function(ev) {
+            mouse.isDown = false;
+            $(".Content").textContent = "鼠标松开!";
+            $(".Content").style.left = 0 + 'px';
+            if (Math.abs(mouse.deltaX) > 100) {
+                $(".Content").textContent += "，这是有效拖动！";
+            } else {
+                $(".Content").textContent += " 本次算无效拖动！";
+            }
+        });
+        $(".Content").addEventListener("mouseout", function(ev) {
+            ev.preventDefault();
+            mouse.isDown = false;
+            $(".Content").textContent = "鼠标离开!";
+            if (Math.abs(mouse.deltaX) > 100) {
+                $(".Content").textContent += " 这次是有效拖动！";
+            } else {
+                $(".Content").textContent += " 本次算无效拖动！";
+            }
+        });
+        $(".Content").addEventListener("mousemove", function(ev) {
+            ev.preventDefault();
+            if (mouse.isDown) {
+                console.log("mouse isDown and moving");
+                mouse.deltaX = parseInt(ev.pageX - mouse.x);
+                $(".Content").textContent = "正在拖动鼠标，距离：" + mouse.deltaX + "px 。";
+                $(".Content").style.left = mouse.deltaX + 'px';
+            }
+        });
+
+        /*实现输入Enter键进行换行，BackSpace进行删除*/
+        $("body").addEventListener("keydown", function(ev) {
+            let k = ev.key;
+            let c = ev.keyCode;
+            $("displayCode").textContent = "您已按下键 ：" + k + " ，" + "字符编码 ：" + c;
+        });
+        $("body").addEventListener("keyup", function(ev) {
+            let k = ev.key;
+            let c = ev.keyCode;
+            $("displayCode").textContent = "松开按键 ：" + k + " ，" + "字符编码 ：" + c;
+            /*判断键盘按下的是否为Enter键，如果是添p元素实现换行*/
+            if (k === "Enter") {
+                //有且只能在document中创建子节点
+                let p = document.createElement("p");
+                //通过创建p元素，添加子节点来实现换行。
+                $("keyboard").appendChild(p);
+            } else if (k === "Backspace") {
+                /*没有字符可以删除了，则将该子节点删除*/
+                if ($("keyboard").lastElementChild.textContent === "") {
+                    /*删除前保证keyboard中至少有一个字节点*/
+                    if ($("keyboard").childElementCount > 1) {
+                        $("keyboard").removeChild($("keyboard").lastElementChild);
+                    }
+                } else {
+                    $("keyboard").lastElementChild.textContent = $("keyboard").lastElementChild.textContent.slice(0, -1);
+                }
+            } else if (printLetter(k)) {
+                $("keyboard").lastElementChild.textContent += k;
+            }
+
+            /*判断是否是单个字符*/
+            function printLetter(k) {
+                //判断字符串长度是否大于1
+                if (k.length > 1) {
+                    return false;
+                }
+                let puncs = ['~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', ',', '.', '<', '>', '?', '/', "'", ' '];
+                /*字母输出*/
+                if ((k >= 'a' && k <= 'z') || (k >= 'A' && k <= 'Z') || (k >= '0' && k <= '9')) {
+                    return true;
+                }
+                /*符号输出*/
+                for (let p of puncs) {
+                    if (p === k) {
+                        return true;
+                    }
+                }
+                return false;
+                //提出更高阶的问题，如何处理连续空格和制表键tab？
+            }
+        });
+
+        function $(ele) {
+            if (typeof ele !== 'string') {
+                throw ("自定义的$函数参数的数据类型错误，实参必须是字符串！");
+                return
+            }
+            let dom = document.getElementById(ele);
+            if (dom) {
+                return dom;
+            } else {
+                dom = document.querySelector(ele);
+                if (dom) {
+                    return dom;
+                } else {
+                    throw ("执行$函数未能在页面上获取任何元素，请自查问题！");
+                    return;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
